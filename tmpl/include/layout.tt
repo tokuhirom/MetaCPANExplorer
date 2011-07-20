@@ -25,6 +25,7 @@
             [% content %]
         </div>
         <footer>
+            Repository is here: <a href="https://github.com/tokuhirom/MetaCPANExplorer">https://github.com/tokuhirom/MetaCPANExplorer</a><br />
             Powered by <a href="http://amon.64p.org/">Amon2</a>
         </footer>
     </div>
