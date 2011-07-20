@@ -7,3 +7,5 @@ nytprof.out
 nytprof/
 development.db
 test.db
+pm_to_blib
+blib/
