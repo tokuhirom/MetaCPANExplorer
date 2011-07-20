@@ -1,0 +1,122 @@
+[% WRAPPER 'include/layout.tt' %]
+
+<hr class="space">
+
+<div class="span-8 colborder">
+    <h1>GET</h1>
+    <ul>
+    [% FOR v IN ['/release/Moose', '/release/DOY/Moose-2.0001', '/author/DOY', '/module/Moose', '/file/DOY/Moose-2.0001/lib/Moose.pm', '/pod/Moose?content-type=text/plain', '/pod/Moose?content-type=text/html', '/pod/Moose?content-type=text/x-pod', '/pod/Moose?content-type=text/x-markdown', '/v0/release/_search?q=author:OALDERS&filter=status:latest&fields=name&size=10000', '/v0/author/_search?pretty=true&q=*&size=10000', '/author/_search?pretty=true&q=profile.name:twitter&size=100000', '/v0/author/_search?q=updated:*&sort=updated:desc'] %]
+    <li><a href="/?url=[% v | uri %]">[% v %]</a></li>
+    [% END %]
+    </ul>
+    <h2>POST</h2>
+    <ul>
+    [% FOR v IN [
+        [
+        'a list of all releases which list MooseX::NonMoose as a dependency',
+        '/release/_search', '{
+        "query": {
+            "match_all": {}
+        },
+        "size": 999999,
+        "filter": {
+            "term": {
+            "release.dependency.module": "MooseX::NonMoose"
+            }
+        }
+        }'],
+        [
+        'The size of the CPAN unpacked',
+        '/file/_search',
+        '{
+            "query": { "match_all": {} },
+            "facets": { 
+                "size": {
+                "statistical": {
+                    "field": "stat.size"
+            } } },
+            "size":0
+        }'
+        ],
+        [
+        'Get license types of all releases in an arbitrary time span',
+        '/release/_search?size=100',
+        '{
+            "query": {
+                "match_all": {},
+                "range" : {
+                    "release.date" : {
+                        "from" : "2010-06-05T00:00:00",
+                        "to" : "2011-06-05T00:00:00"
+                    }
+                }
+            },
+            "fields": ["release.license", "release.name", "release.distribution", "release.date", "release.version_numified"]
+        }'
+        ],
+        [
+        'Aggregate by license',
+        '/release/_search',
+        '{
+            "query": { "range" : {
+                    "release.date" : {
+                        "from" : "2010-06-05T00:00:00",
+                        "to" : "2011-06-05T00:00:00"
+                    }
+                }
+            },
+            "facets": { 
+                "license": {
+
+                "terms": {
+                    "field":"release.license"
+            } } },
+            "size":0
+        }'
+        ],
+        [
+        'Most used file names in the root directory of releases',
+        '/file/_search',
+        '{
+        "query": { "filtered":{"query":{"match_all":{}},"filter":{"term":{"level":0}}}
+        },
+        "facets": { 
+            "license": {
+            "terms": {
+                "size":100,
+                "field":"file.name"
+        } } },
+        "size":0
+        }'
+        ]
+    ] %]
+    <li><a href="/?url=[% v.1 | uri %]&content=[% v.2 | uri %]">[% v.0 %]</a></li>
+    [% END %]
+    </ul>
+</div>
+<div class="span-15 last">
+    <h1>Request</h1>
+    <form method="get" action="/">
+        <input type="text" name="url" value="" size="80" />
+        <textarea name="content"></textarea>
+        <input type="submit" value="get" />
+    </form>
+
+    [% IF res %]
+    <h1>Response</h1>
+    <table>
+        <tr><td>status</td><td>[% res.status_line %]</td>
+        [% IF res.is_success %]
+        [% IF res.content_type.match('json') %]
+        <tr><td>dat</td><td><textarea>[% res.decoded_content | decode_json | prettify %]</textarea></td>
+        [% ELSE %]
+        <tr><td>dat</td><td><textarea>[% res.decoded_content %]</textarea></td>
+        [% END %]
+        [% END %]
+    </table>
+    [% END %]
+</div>
+
+<hr class="space">
+
+[% END %]
