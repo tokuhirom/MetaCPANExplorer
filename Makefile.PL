@@ -12,6 +12,7 @@ WriteMakefile(
         'HTML::FillInForm::Lite'          => '1.09',
         'Time::Piece'                     => '1.20',
 		'JSON' => 2,
+		'LWP::UserAgent' => 0,
     },
     MIN_PERL_VERSION => '5.008001',
     (-d 'xt' and $ENV{AUTOMATED_TESTING} || $ENV{RELEASE_TESTING}) ? (
