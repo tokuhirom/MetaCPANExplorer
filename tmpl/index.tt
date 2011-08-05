@@ -5,7 +5,7 @@
 <div class="span-8 colborder">
     <h1>GET</h1>
     <ul>
-    [% FOR v IN ['/release/Moose', '/release/DOY/Moose-2.0001', '/author/DOY', '/module/Moose', '/file/DOY/Moose-2.0001/lib/Moose.pm', '/pod/Moose?content-type=text/plain', '/pod/Moose?content-type=text/html', '/pod/Moose?content-type=text/x-pod', '/pod/Moose?content-type=text/x-markdown', '/v0/release/_search?q=author:OALDERS&filter=status:latest&fields=name&size=10000', '/v0/author/_search?pretty=true&q=*&size=10000', '/author/_search?pretty=true&q=profile.name:twitter&size=100000', '/v0/author/_search?q=updated:*&sort=updated:desc'] %]
+    [% FOR v IN ['/release/Moose', '/release/DOY/Moose-2.0001', '/author/DOY', '/module/Moose', '/file/DOY/Moose-2.0001/lib/Moose.pm', '/pod/Moose?content-type=text/plain', '/pod/Moose?content-type=text/html', '/pod/Moose?content-type=text/x-pod', '/pod/Moose?content-type=text/x-markdown', '/v0/release/_search?q=author:OALDERS&filter=status:latest&fields=name&size=100', '/v0/author/_search?pretty=true&q=*&size=100', '/author/_search?pretty=true&q=author.profile.name:twitter&size=100', '/v0/author/_search?q=updated:*&sort=updated:desc'] %]
     <li><a href="/?url=[% v | uri %]">[% v %]</a></li>
     [% END %]
     </ul>
