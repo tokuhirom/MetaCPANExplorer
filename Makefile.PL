@@ -11,6 +11,7 @@ WriteMakefile(
         'Plack::Middleware::ReverseProxy' => '0.09',
         'HTML::FillInForm::Lite'          => '1.09',
         'Time::Piece'                     => '1.20',
+        'HTTP::Session::Store::File'      => '0',
 		'JSON' => 2,
 		'LWP::UserAgent' => 0,
     },
