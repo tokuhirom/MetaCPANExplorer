@@ -26,7 +26,7 @@ any '/' => sub {
     }
 
     $c->fillin_form($c->req);
-    $c->render('index.tt', \%stash);
+    $c->render('index.tt', {%stash, version => $MetaCPANExplorer::VERSION});
 };
 
 1;
