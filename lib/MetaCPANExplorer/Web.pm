@@ -5,10 +5,6 @@ use parent qw/MetaCPANExplorer Amon2::Web/;
 use 5.10.0;
 use File::Spec;
 
-# load all controller classes
-use Module::Find ();
-Module::Find::useall("MetaCPANExplorer::Web::C");
-
 # dispatcher
 use MetaCPANExplorer::Web::Dispatcher;
 sub dispatch {
